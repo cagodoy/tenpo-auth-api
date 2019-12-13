@@ -1,0 +1,29 @@
+version: '3'
+
+volumes:
+  auth-postgres-data:
+    driver: local
+
+services:
+  #
+  # AUTH SERVICE
+  #
+  auth-postgres:
+    container_name: auth-postgres
+    image: postgres
+    volumes:
+      - auth-postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  auth-api:
+    container_name: auth-api
+    build: .
+    # ports:
+    #   - 5010:5010
+    environment:
+      - POSTGRES_DSN=postgres://postgres:postgres@auth-postgres:5432/postgres?sslmode=disable
+      # - PORT=5010
+    depends_on:
+      - auth-postgres
+    links:
+      - auth-postgres
