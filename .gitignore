@@ -1,7 +1,7 @@
 node_modules
 package-lock.json
 proto-ts
-bin/wait-db
-bin/goose
+# bin/wait-db
+# bin/goose
 dist
 yarn.lock
