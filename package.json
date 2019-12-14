@@ -1,6 +1,6 @@
 {
-  "name": "auth-api",
-  "version": "0.0.3",
+  "name": "tenpo-auth-api",
+  "version": "0.0.8",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
