@@ -1,9 +1,8 @@
 import Store from '../database/postgres/store';
 import jwt from 'jsonwebtoken';
 
-import UsersSvc from '../../../../lib/js/dist/clients/users';
-import { TUserResponse, TUser } from '../../../../lib/js/dist/clients/users';
-import { TAuthResponse, TAuth } from '../../../../lib/js/dist/clients/auth';
+import UsersSvc, { TUserResponse, TUser } from '../clients/users';
+import { TAuthResponse, TAuth } from '../clients/auth';
 
 // get USERS_HOST env value
 const USERS_HOST = process.env.USERS_HOST || '';

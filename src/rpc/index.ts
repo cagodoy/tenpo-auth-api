@@ -1,8 +1,8 @@
 import Service from '../service';
 import { Context } from 'mali';
 
-import { TAuthResponse, TAuthVerifyTokenResponse } from '../../../../lib/js/dist/clients/auth';
-import { TUser } from '../../../../lib/js/dist/clients/users';
+import { TAuthResponse, TAuthVerifyTokenResponse } from '../clients/auth';
+import { TUser } from '../clients/users';
 
 interface IRPC {
   verifyToken(ctx: Context, next: Function): Promise<void>;

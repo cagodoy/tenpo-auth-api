@@ -1,7 +1,7 @@
 // store dependies
 import { Client } from 'pg';
 import squel from 'squel';
-import { TAuth } from '../../../../../lib/js/dist/clients/auth';
+import { TAuth } from '../../clients/auth';
 
 // store interface
 export interface IStore {

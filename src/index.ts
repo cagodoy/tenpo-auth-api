@@ -1,7 +1,7 @@
 // dependencies
 import Mali from 'mali';
 import path from 'path';
-import UsersSvc from '../../../lib/js/dist/clients/users';
+import UsersSvc from './clients/users';
 
 // internal dependencies
 import NewPostgres from './database';
@@ -51,7 +51,7 @@ async function main() {
 
   // mali grpc server
   try {
-    const PROTO_PATH = path.resolve(__dirname, '../', '../', '../', 'proto', 'demo.proto');
+    const PROTO_PATH = path.resolve(__dirname, '../', 'proto', 'demo.proto');
     app = new Mali(PROTO_PATH, 'AuthService');
   } catch (err) {
     console.log('Failed at create mali server: ', err);
