@@ -27,8 +27,7 @@ COPY bin/wait-db /usr/bin/wait-db
 COPY ./src/database/migrations migrations
 
 # Expose service port
-# EXPOSE 5010
+EXPOSE 5010
 
 # Run service
-CMD ["/bin/sh", "-l", "-c", "wait-db && goose -dir src/database/migrations postgres ${POSTGRES_DSN} up"]
-# CMD ["/bin/sh", "-l", "-c", "wait-db && goose -dir /auth-api/migrations postgres ${POSTGRES_DSN} up && yarn start"]
+CMD ["/bin/sh", "-l", "-c", "wait-db && goose -dir src/database/migrations postgres ${POSTGRES_DSN} up && yarn start"]
