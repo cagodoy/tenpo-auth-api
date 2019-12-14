@@ -3,5 +3,8 @@ package-lock.json
 proto-ts
 # bin/wait-db
 # bin/goose
+src/clients
+src/promisify
+proto
 dist
 yarn.lock
