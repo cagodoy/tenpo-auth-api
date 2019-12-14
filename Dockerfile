@@ -8,8 +8,7 @@ WORKDIR /auth-api
 COPY ./package.json ./
 
 # Install dependencies in production mode
-# RUN yarn install --production=true
-RUN yarn
+RUN yarn install
 
 # Copy transpiled dist folder
 COPY dist dist
