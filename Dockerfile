@@ -13,6 +13,9 @@ RUN yarn install
 # Copy transpiled dist folder
 COPY dist dist
 
+# Copy proto folder
+COPY ./proto ./proto
+
 # Copy bin folder
 COPY ./bin ./bin
 
@@ -29,4 +32,4 @@ COPY ./src/database/migrations migrations
 EXPOSE 5010
 
 # Run service
-CMD ["/bin/sh", "-l", "-c", "wait-db && goose -dir src/database/migrations postgres ${POSTGRES_DSN} up && yarn start"]
+CMD ["/bin/sh", "-l", "-c", "wait-db && goose -dir /auth-api/migrations postgres ${POSTGRES_DSN} up && yarn start"]
