@@ -13,9 +13,16 @@ VERSION := $$(cat package.json | grep version | sed 's/"/ /g' | awk {'print $$3'
 SVC=tenpo-auth-api
 PORT=5010
 POSTGRES_DSN=postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable
+GITHUB_REGISTRY_URL=docker.pkg.github.com/$(GITHUB_USER)/$(SVC)
 JWT_SECRET=123secret
 USERS_HOST=0.0.0.0
 USERS_PORT=5020
+
+prepare pre:
+	@echo "[prepare] preparing..."
+	@npm install
+	@cp -r ../../lib/src-js/clients ../../lib/src-js/promisify ./src
+	@cp -r ../../lib/proto .
 
 clean c:
 	@echo "[clean] cleaning..."
@@ -46,7 +53,7 @@ docker-login dl:
 	@echo "[docker] Login to docker..."
 	@docker login docker.pkg.github.com -u $(GITHUB_USER) -p $(GITHUB_TOKEN)
 
-push p: linux docker docker-login
+push p: docker docker-login
 	@echo "[docker] pushing $(GITHUB_REGISTRY_URL)/$(SVC):$(VERSION)"
 	@docker tag $(SVC):$(VERSION) $(GITHUB_REGISTRY_URL)/$(SVC):$(VERSION)
 	@docker push $(GITHUB_REGISTRY_URL)/$(SVC):$(VERSION)
@@ -60,4 +67,4 @@ stop s:
 	@echo "[docker-compose] Stopping docker-compose..."
 	@docker-compose down
 
-.PHONY: clean c typescript ts run r compose co stop s
+.PHONY: prepare clean c typescript ts run r add-migration am migrations m docker d docker-login dl push p compose co stop s
