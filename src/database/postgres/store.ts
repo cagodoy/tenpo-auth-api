@@ -50,8 +50,7 @@ class Store implements IStore {
       if (result.rows.length === 0) {
         throw new Error('token is not found');
       }
-      console.log('GetByToken', result);
-      console.log('GetByToken', result.rows[0]);
+
       return result.rows[0];
     } catch (err) {
       throw err;
