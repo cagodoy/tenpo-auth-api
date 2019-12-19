@@ -15,7 +15,7 @@ PORT=5010
 POSTGRES_DSN=postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable
 REGISTRY_URL=$(DOCKER_USER)
 
-JWT_SECRET=123secret
+JWT_SECRET=<jwt_secret>
 USERS_HOST=0.0.0.0
 USERS_PORT=5020
 
