@@ -2,7 +2,8 @@ import Store from '../database/postgres/store';
 import jwt from 'jsonwebtoken';
 
 import UsersSvc, { TUserResponse, TUser } from '../clients/users';
-import { TAuthResponse, TAuth } from '../clients/auth';
+import { TAuthResponse, TAuth, TAuthVerifyToken } from '../clients/auth';
+import { decode } from 'punycode';
 
 // get USERS_HOST env value
 const USERS_HOST = process.env.USERS_HOST || '';
@@ -26,7 +27,7 @@ if (JWT_SECRET === '') {
 }
 
 interface IService {
-  verifyToken(token: string): Promise<void>;
+  verifyToken(token: string): Promise<TAuthVerifyToken>;
   login(email: string, password: string): Promise<TAuthResponse>;
   signUp(user: TUser): Promise<TAuthResponse>;
 }
@@ -39,7 +40,7 @@ class Service implements IService {
   }
 
   // verifyToken ...
-  verifyToken = async (token: string): Promise<void> => {
+  verifyToken = async (token: string): Promise<TAuthVerifyToken> => {
     console.log('[gRPC][TenpoUsersService][VerifyToken][Request] ', token);
 
     // get auth by token from store
@@ -69,7 +70,13 @@ class Service implements IService {
       throw new Error(`token already expired`);
     }
 
-    return;
+    const res: TAuthVerifyToken = {
+      iat: decoded.iat,
+      exp: decoded.exp,
+      userId: decoded.user_id,
+    };
+
+    return res;
   };
 
   // signUp ...
@@ -169,6 +176,14 @@ class Service implements IService {
     } catch (err) {
       console.log('[gRPC][TenpoAuthService][Login][jwt.sign][Error] ', err.message);
       throw new Error('token was not created');
+    }
+
+    //create auth in store
+    try {
+      await this.store.Create(token, user.data.id);
+    } catch (err) {
+      console.log('[gRPC][TenpoAuthService][SignUp][Store][Create][Error] ', err.message);
+      throw err;
     }
 
     // prepare response
