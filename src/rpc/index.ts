@@ -1,7 +1,7 @@
 import Service from '../service';
 import { Context } from 'mali';
 
-import { TAuthResponse, TAuthVerifyTokenResponse } from '../clients/auth';
+import { TAuthResponse, TAuthVerifyTokenResponse, TAuthVerifyToken } from '../clients/auth';
 import { TUser } from '../clients/users';
 
 interface IRPC {
@@ -23,6 +23,7 @@ class RPC implements IRPC {
     if (token === undefined) {
       const res = <TAuthVerifyTokenResponse>{
         valid: false,
+        data: null,
         error: {
           code: 500,
           message: 'invalid token req value',
@@ -33,11 +34,13 @@ class RPC implements IRPC {
       return;
     }
 
+    let data: TAuthVerifyToken;
     try {
-      await this.service.verifyToken(token);
+      data = await this.service.verifyToken(token);
     } catch (err) {
       const res = <TAuthVerifyTokenResponse>{
         valid: false,
+        data: null,
         error: {
           code: 500,
           message: err.message,
@@ -49,6 +52,7 @@ class RPC implements IRPC {
     }
 
     const res = <TAuthVerifyTokenResponse>{
+      data,
       valid: true,
       error: null,
     };
